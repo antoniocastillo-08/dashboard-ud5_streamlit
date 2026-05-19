@@ -1,0 +1,22 @@
+services:
+  spark-lab:
+    image: jupyter/pyspark-notebook:latest
+    container_name: UD5_SBD
+    ports:
+      - "8889:8888"
+      - "4040:4040"
+      - "8050-8062:8050-8062"   # Puertos para Dash
+    volumes:
+      - type: bind
+        source: ./data
+        target: /opt/spark-data
+        consistency: cached
+      - type: bind
+        source: ./notebooks
+        target: /home/jovyan/work
+        consistency: cached
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - GRANT_SUDO=yes
+      - TZ=Europe/Madrid
+    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''
